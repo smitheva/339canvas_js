@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Eva's Canvas</title>
+	<style type="text/css">
+		canvas{
+			border: 1px solid black;
+		}
+	</style>
+
+
+</head>
+<body>
+	<canvas id="canvas" width="500" height="500">
+		You can draw on this canvas with your mouse or finger if using a touchscreen. 
+	</canvas>
+<script>
+	// var colorpicker = document.querySelector("#myColor");
+	// console.log(colorpicker);
+	// color = colorpicker.value;
+	
+	var canvas = document.querySelector('canvas');
+	var ctx = canvas.getContext('2d');
+	var x = 0
+	var y = 0
+	var color = "red"
+	var radius = 15;
+	var colorpicker = document.querySelector("#cp");
+
+
+	console.log(window.innerWidth)
+	console.log(window.innerHeight)
+	canvas.width = window.innerWidth * .8;
+	canvas.height = window.innerHeight * .8 ;
+
+	function draw(){
+		
+		ctx.beginPath();
+		ctx.fillStyle = color;
+		ctx.arc(x,y,radius,0,2*Math.PI);
+		ctx.fill();
+	}
+	window.addEventListener('touchmove', function (e){
+		x = e.touches[0].pageX;
+		y = e.touches[0].pageY;
+		draw();
+	})
+
+	window.addEventListener('mousemove', function (e) {
+		x = e.pageX;
+		y = e.pageY;
+		draw();
+	})
+	window.addEventListener('keydown', function (e) {
+		console.log(e.keyCode)
+		if (e.keyCode == 89) {
+			color = "yellow"
+		}
+		if (e.keyCode == 71){
+			color = "green"
+		}
+		if (e.keyCode == 66){
+			color = "blue"
+		}
+		if (e.keyCode == 82){
+			color = "red"
+		}
+		if (e.keyCode == 80){
+			color = "purple"
+		}
+
+		if (e.keyCode == 38){
+			radius += 1
+		}
+		if (e.keyCode == 40){
+			if (radius > 1){
+			radius -= 1}
+		}
+		
+		if (e.keyCode == 32){
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+		}
+	
+	})
+
+	
+	window.addEventListener('resize', function(){
+		canvas.width = window.innerWidth * .8;
+		canvas.height = window.innerHeight * .8 ;
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+	})
+
+</script>
+	<!-- <br><input type="color" id="myColor" size="50" value="#ff0000" onchange="color = this.value;"><br> this works on own, but doesn't let keydown functions occur/blocks keydown-->
+	<br><input type="color" id="myColor" size="50" value="#ff0000" onchange="color = this.value;"><br>
+</body>
+</html>
